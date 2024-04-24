@@ -56,13 +56,13 @@ def generate_keys():
 def encrypt_array(public_key, array):
     '''
     '''
-    print(f"=======Encrypting======= {array[0]}")
+    print(f"=======Encrypting=======")
     array = np.array(array)
     flat_array = array.flatten()
-    encrypted_flat_array = [public_key.encrypt(int(i)).ciphertext() for i in flat_array]
+    encrypted_flat_array = [public_key.encrypt(float(i)).ciphertext() for i in flat_array]
     # reshape it back
-    #encrypted_array = np.array(encrypted_flat_array, dtype=object).reshape(array.shape)
-    return encrypted_flat_array
+    encrypted_array = np.array(encrypted_flat_array).reshape(array.shape)
+    return encrypted_array
 
 # solution - 2
 #def encrypt_array(public_key, array):
@@ -300,8 +300,6 @@ class FlowerClient(fl.client.NumPyClient):
         #print('updated_params:', updated_params)
         encrypted_params = [encrypt_array(encryptor, p) for p in updated_params]
         #encrypted_structured_arrays = [np.array(encrypt_array(array, encryptor), dtype=object).reshape(array.shape) for array in encrypted_params]
-
-
         return encrypted_params, len(self.trainloader), {} # return the updated model params to the server.
 
     def evaluate(self, parameters, config):
