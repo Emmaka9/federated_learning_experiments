@@ -62,6 +62,7 @@ def encrypt_array(public_key, array):
     encrypted_flat_array = [public_key.encrypt(float(i)).ciphertext() for i in flat_array]
     # reshape it back
     encrypted_array = np.array(encrypted_flat_array).reshape(array.shape)
+    print("++++++++++++Encryption Success!!++++++++++++++")
     return encrypted_array
 
 # solution - 2
@@ -351,10 +352,10 @@ strategy = fl.server.strategy.FedAvg(
 
 # Specify the resources each of your clients need. By default, each
 # client will be allocated 1x CPU and 0x GPUs
-client_resources = {"num_cpus": 1, "num_gpus": 0.0}
+client_resources = {"num_cpus": 8, "num_gpus": 0}
 if DEVICE.type == "cuda":
     # here we are assigning an entire GPU for each client.
-    client_resources = {"num_cpus": 1, "num_gpus": 1.0}
+    client_resources = {"num_cpus": 8, "num_gpus": 1}
     # Refer to our documentation for more details about Flower Simulations
     # and how to setup these `client_resources`.
 
@@ -414,6 +415,9 @@ fl.simulation.start_simulation(
     strategy=strategy,
     client_resources=client_resources,
 )
+
+print("==============Execution Success!!===========")
+print("=========Marks successful execution: Signed by - Emmaka!!=========")
 
 """We now have a full system that performs federated training and federated evaluation. It uses the `weighted_average` function to aggregate custom evaluation metrics and calculates a single `accuracy` metric across all clients on the server side.
 

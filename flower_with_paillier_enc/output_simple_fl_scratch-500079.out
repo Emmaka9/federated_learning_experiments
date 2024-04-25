@@ -1,0 +1,72 @@
+[92mINFO [0m:      Starting Flower simulation, config: num_rounds=5, no round_timeout
+2024-04-24 23:26:34,373	INFO worker.py:1621 -- Started a local Ray instance.
+[92mINFO [0m:      Flower VCE: Ray initialized with resources: {'CPU': 32.0, 'node:172.16.14.4': 1.0, 'node:__internal_head__': 1.0, 'object_store_memory': 37082005094.0, 'memory': 76524678554.0}
+[92mINFO [0m:      Optimize your simulation with Flower VCE: https://flower.ai/docs/framework/how-to-run-simulations.html
+[92mINFO [0m:      Flower VCE: Resources for each Virtual Client: {'num_cpus': 1, 'num_gpus': 0.0}
+[92mINFO [0m:      Flower VCE: Creating VirtualClientEngineActorPool with 32 actors
+[92mINFO [0m:      [INIT]
+[92mINFO [0m:      Requesting initial parameters from one random client
+[92mINFO [0m:      Received initial parameters from one random client
+[92mINFO [0m:      Evaluating initial global parameters
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 1]
+[92mINFO [0m:      configure_fit: strategy sampled 10 clients (out of 10)
+[2m[36m(ClientAppActor pid=24228)[0m /home/ikemmaka/.conda/envs/federated_learning/lib/python3.10/site-packages/torch/nn/modules/loss.py:535: UserWarning: Using a target size (torch.Size([32, 1])) that is different to the input size (torch.Size([32, 2])). This will likely lead to incorrect results due to broadcasting. Please ensure they have the same size.
+[2m[36m(ClientAppActor pid=24228)[0m   return F.mse_loss(input, target, reduction=self.reduction)
+[2m[36m(ClientAppActor pid=24228)[0m /home/ikemmaka/.conda/envs/federated_learning/lib/python3.10/site-packages/torch/nn/modules/loss.py:535: UserWarning: Using a target size (torch.Size([8, 1])) that is different to the input size (torch.Size([8, 2])). This will likely lead to incorrect results due to broadcasting. Please ensure they have the same size.
+[2m[36m(ClientAppActor pid=24228)[0m   return F.mse_loss(input, target, reduction=self.reduction)
+[92mINFO [0m:      aggregate_fit: received 10 results and 0 failures
+[93mWARNING [0m:   No fit_metrics_aggregation_fn provided
+[92mINFO [0m:      configure_evaluate: strategy sampled 5 clients (out of 10)
+[92mINFO [0m:      aggregate_evaluate: received 5 results and 0 failures
+[93mWARNING [0m:   No evaluate_metrics_aggregation_fn provided
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 2]
+[92mINFO [0m:      configure_fit: strategy sampled 10 clients (out of 10)
+[92mINFO [0m:      aggregate_fit: received 10 results and 0 failures
+[92mINFO [0m:      configure_evaluate: strategy sampled 5 clients (out of 10)
+[92mINFO [0m:      aggregate_evaluate: received 5 results and 0 failures
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 3]
+[92mINFO [0m:      configure_fit: strategy sampled 10 clients (out of 10)
+[92mINFO [0m:      aggregate_fit: received 10 results and 0 failures
+[92mINFO [0m:      configure_evaluate: strategy sampled 5 clients (out of 10)
+[92mINFO [0m:      aggregate_evaluate: received 5 results and 0 failures
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 4]
+[92mINFO [0m:      configure_fit: strategy sampled 10 clients (out of 10)
+[92mINFO [0m:      aggregate_fit: received 10 results and 0 failures
+[92mINFO [0m:      configure_evaluate: strategy sampled 5 clients (out of 10)
+[92mINFO [0m:      aggregate_evaluate: received 5 results and 0 failures
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 5]
+[92mINFO [0m:      configure_fit: strategy sampled 10 clients (out of 10)
+[92mINFO [0m:      aggregate_fit: received 10 results and 0 failures
+[92mINFO [0m:      configure_evaluate: strategy sampled 5 clients (out of 10)
+[92mINFO [0m:      aggregate_evaluate: received 5 results and 0 failures
+[92mINFO [0m:      
+[92mINFO [0m:      [SUMMARY]
+[92mINFO [0m:      Run finished 5 rounds in 10.35s
+[92mINFO [0m:      History (loss, distributed):
+[92mINFO [0m:      	('\tround 1: 5.725755092075893\n'
+[92mINFO [0m:      	 '\tround 2: 4.250613069534301\n'
+[92mINFO [0m:      	 '\tround 3: 2.407544105393546\n'
+[92mINFO [0m:      	 '\tround 4: 1.801515337399074\n'
+[92mINFO [0m:      	 '\tround 5: 1.3499618870871408\n')
+[92mINFO [0m:      
+[2m[36m(ClientAppActor pid=24228)[0m Epoch 1: train loss 284.8381624221802
+[2m[36m(ClientAppActor pid=24228)[0m =========Encrypting==========
+[2m[36m(ClientAppActor pid=24228)[0m ++++++++++Encryption Successfull+++++++++++
+[2m[36m(ClientAppActor pid=24228)[0m =========Encrypting==========
+[2m[36m(ClientAppActor pid=24228)[0m ++++++++++Encryption Successfull+++++++++++
+[2m[36m(ClientAppActor pid=24227)[0m Epoch 1: train loss 171.73889303207397[32m [repeated 18x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/ray-logging.html#log-deduplication for more options.)[0m
+[2m[36m(ClientAppActor pid=24227)[0m =========Encrypting==========[32m [repeated 27x across cluster][0m
+[2m[36m(ClientAppActor pid=24217)[0m ++++++++++Encryption Successfull+++++++++++[32m [repeated 22x across cluster][0m
+[2m[36m(ClientAppActor pid=24212)[0m Epoch 1: train loss 52.55797106027603[32m [repeated 31x across cluster][0m
+[2m[36m(ClientAppActor pid=24209)[0m =========Encrypting==========[32m [repeated 68x across cluster][0m
+++++++++++Simulation Completed!!+++++++++++++++
+============Execution Success!!================
+[2m[36m(ClientAppActor pid=24212)[0m /home/ikemmaka/.conda/envs/federated_learning/lib/python3.10/site-packages/torch/nn/modules/loss.py:535: UserWarning: Using a target size (torch.Size([8, 1])) that is different to the input size (torch.Size([8, 2])). This will likely lead to incorrect results due to broadcasting. Please ensure they have the same size.[32m [repeated 18x across cluster][0m
+[2m[36m(ClientAppActor pid=24212)[0m   return F.mse_loss(input, target, reduction=self.reduction)[32m [repeated 18x across cluster][0m
+[2m[36m(ClientAppActor pid=24212)[0m ++++++++++Encryption Successfull+++++++++++[32m [repeated 76x across cluster][0m
+[2m[36m(ClientAppActor pid=24212)[0m =========Encrypting==========[32m [repeated 3x across cluster][0m

@@ -51,6 +51,7 @@ def encrypt_vector(public_key, array):
     flat_array = array.flatten()
     encrypted_flat_array = [public_key.encrypt(float(i)).ciphertext() for i in flat_array]
     encrypted_array = np.array(encrypted_flat_array).reshape(array.shape)
+    print("++++++++++Encryption Successfull+++++++++++")
     return encrypted_array
 
 
@@ -105,6 +106,7 @@ def train(model, train_loader, criterion, optimizer, epochs):
             loss.backward() # optimizer in the next step will use these gradients to update the parameters.
             optimizer.step() # updates the model params. update rule - sgd, adam, ...
             total_loss += loss.item()
+        print(f"Epoch {epoch+1}: train loss {total_loss}")
     return total_loss / len(train_loader)
 
 
@@ -268,3 +270,5 @@ fl.simulation.start_simulation(
     client_resources=client_resources,
 )
 
+print("++++++++++Simulation Completed!!+++++++++++++++")
+print("============Execution Success!!================")

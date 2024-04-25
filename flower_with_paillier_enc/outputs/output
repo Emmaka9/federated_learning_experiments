@@ -1,0 +1,16 @@
+[92mINFO [0m:      Starting Flower simulation, config: num_rounds=5, no round_timeout
+2024-04-24 22:01:44,305	INFO worker.py:1621 -- Started a local Ray instance.
+[92mINFO [0m:      Flower VCE: Ray initialized with resources: {'CPU': 32.0, 'node:__internal_head__': 1.0, 'object_store_memory': 58229929574.0, 'memory': 125869835674.0, 'node:172.16.14.3': 1.0}
+[92mINFO [0m:      Optimize your simulation with Flower VCE: https://flower.ai/docs/framework/how-to-run-simulations.html
+[92mINFO [0m:      Flower VCE: Resources for each Virtual Client: {'num_cpus': 8, 'num_gpus': 2}
+[93mWARNING [0m:   The ActorPool is empty. The system (CPUs=32.0, GPUs=0) does not meet the criteria to host at least one client with resources: {'num_cpus': 8, 'num_gpus': 2}. Lowering the `client_resources` could help.
+Traceback (most recent call last):
+  File "/scrfs/storage/ikemmaka/home/workplace_emmamka/fl_experiments/federated_learning_experiments/flower_with_paillier_enc/flwr_cifar10_paillier.py", line 362, in <module>
+    fl.simulation.start_simulation(
+  File "/home/ikemmaka/.conda/envs/federated_learning/lib/python3.10/site-packages/flwr/simulation/app.py", line 260, in start_simulation
+    pool = VirtualClientEngineActorPool(
+  File "/home/ikemmaka/.conda/envs/federated_learning/lib/python3.10/site-packages/flwr/simulation/ray_transport/ray_actor.py", line 176, in __init__
+    num_actors = pool_size_from_resources(client_resources)
+  File "/home/ikemmaka/.conda/envs/federated_learning/lib/python3.10/site-packages/flwr/simulation/ray_transport/ray_actor.py", line 133, in pool_size_from_resources
+    raise ValueError(
+ValueError: ActorPool is empty. Stopping Simulation. Check 'client_resources' passed to `start_simulation`
