@@ -1,0 +1,17 @@
+/usr/bin/lua: /scrfs/apps/ohpc/admin/lmod/8.7.6/libexec/lmod:61: module 'posix' not found:
+	no field package.preload['posix']
+	no file '/usr/share/lua/5.3/posix.lua'
+	no file '/usr/share/lua/5.3/posix/init.lua'
+	no file '/usr/lib64/lua/5.3/posix.lua'
+	no file '/usr/lib64/lua/5.3/posix/init.lua'
+	no file '/usr/lib64/lua/5.3/posix.so'
+	no file '/usr/lib64/lua/5.3/loadall.so'
+stack traceback:
+	[C]: in function 'require'
+	/scrfs/apps/ohpc/admin/lmod/8.7.6/libexec/lmod:61: in main chunk
+	[C]: ?
+/var/spool/slurmd/job500095/slurm_script: line 12: activate: No such file or directory
+  File "flwr_cifar10_paillier.py", line 59
+    print(f"=======Encrypting=======")
+                                    ^
+SyntaxError: invalid syntax

@@ -1,0 +1,22 @@
+[92mINFO [0m:      Starting Flower simulation, config: num_rounds=5, no round_timeout
+2024-04-25 03:48:06,728	INFO worker.py:1621 -- Started a local Ray instance.
+[92mINFO [0m:      Flower VCE: Ray initialized with resources: {'node:172.16.15.3': 1.0, 'object_store_memory': 49448234188.0, 'memory': 105379213108.0, 'node:__internal_head__': 1.0, 'CPU': 32.0}
+[92mINFO [0m:      Optimize your simulation with Flower VCE: https://flower.ai/docs/framework/how-to-run-simulations.html
+[92mINFO [0m:      Flower VCE: Resources for each Virtual Client: {'num_cpus': 8, 'num_gpus': 0}
+[92mINFO [0m:      Flower VCE: Creating VirtualClientEngineActorPool with 4 actors
+[92mINFO [0m:      [INIT]
+[92mINFO [0m:      Requesting initial parameters from one random client
+[92mINFO [0m:      Received initial parameters from one random client
+[92mINFO [0m:      Evaluating initial global parameters
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 1]
+[92mINFO [0m:      configure_fit: strategy sampled 10 clients (out of 10)
+slurmstepd: error: *** JOB 500099 ON c1503 CANCELLED AT 2024-04-25T03:49:05 DUE TO TIME LIMIT ***
+*** SIGTERM received at time=1714034945 on cpu 16 ***
+PC: @     0x2b064aae3b3b  (unknown)  do_futex_wait.constprop.1
+    @     0x2b064aae5630  (unknown)  (unknown)
+    @     0x561b00000000  (unknown)  (unknown)
+[2024-04-25 03:49:05,724 E 112864 112864] logging.cc:361: *** SIGTERM received at time=1714034945 on cpu 16 ***
+[2024-04-25 03:49:05,724 E 112864 112864] logging.cc:361: PC: @     0x2b064aae3b3b  (unknown)  do_futex_wait.constprop.1
+[2024-04-25 03:49:05,733 E 112864 112864] logging.cc:361:     @     0x2b064aae5630  (unknown)  (unknown)
+[2024-04-25 03:49:05,743 E 112864 112864] logging.cc:361:     @     0x561b00000000  (unknown)  (unknown)

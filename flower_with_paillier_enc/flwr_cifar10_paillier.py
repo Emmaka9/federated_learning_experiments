@@ -56,7 +56,7 @@ def generate_keys():
 def encrypt_array(public_key, array):
     '''
     '''
-    print(f"=======Encrypting=======")
+    print("=======Encrypting=======")
     array = np.array(array)
     flat_array = array.flatten()
     encrypted_flat_array = [public_key.encrypt(float(i)).ciphertext() for i in flat_array]
