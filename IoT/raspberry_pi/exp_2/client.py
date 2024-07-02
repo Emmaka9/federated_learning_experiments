@@ -4,11 +4,24 @@ import torch.optim as optim
 import numpy as np
 import pandas as pd
 import requests
-import json
-import syft as sy
 
-# Setup PySyft
-hook = sy.TorchHook(torch)
+# Function to generate synthetic data
+def generate_synthetic_data(num_samples=1000):
+    np.random.seed(42)
+    data = np.random.rand(num_samples, 20)
+    labels = np.random.randint(2, size=num_samples)
+    return data, labels
+
+# Generate and save synthetic data
+data, labels = generate_synthetic_data()
+pd.DataFrame(data).to_csv('synthetic_data.csv', index=False)
+pd.DataFrame(labels).to_csv('synthetic_labels.csv', index=False)
+
+# Load data
+def load_data():
+    data = pd.read_csv('synthetic_data.csv').values
+    labels = pd.read_csv('synthetic_labels.csv').values.flatten()
+    return torch.tensor(data, dtype=torch.float32), torch.tensor(labels, dtype=torch.long)
 
 # Define a simple neural network
 class Net(nn.Module):
@@ -22,73 +35,50 @@ class Net(nn.Module):
         x = self.fc2(x)
         return x
 
-# Function to load synthetic data
-def load_data():
-    # Load synthetic data and labels from CSV files
-    data = pd.read_csv('synthetic_data.csv').values
-    labels = pd.read_csv('synthetic_labels.csv').values.flatten()
-    return torch.tensor(data, dtype=torch.float32), torch.tensor(labels, dtype=torch.long)
-
-# Function to train the model on local data
+# Train the model
 def train_model(model, data, labels, epochs=1):
-    # Define loss function and optimizer
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=0.01)
     for epoch in range(epochs):
-        # Zero the parameter gradients
         optimizer.zero_grad()
-        # Forward pass
         outputs = model(data)
-        # Compute loss
         loss = criterion(outputs, labels)
-        # Backward pass and optimize
         loss.backward()
         optimizer.step()
     return model
 
-# Function to send the model update to the server
-def send_model_update(model, server_url, client):
-    # Get the model weights
-    model_weights = [param.data for param in model.parameters()]
-    # Encrypt the model weights using PySyft
-    encrypted_weights = [weight.fix_precision().share(client) for weight in model_weights]
-    # Convert weights to JSON format
-    weights_json = json.dumps([w.tolist() for w in encrypted_weights])
-    # Send weights to the server
-    response = requests.post(server_url + "/update_model", json={'weights': weights_json})
-    # Get aggregated weights from server response
-    return response.json()['aggregated_weights']
+# Send model weights to the server
+def send_model_update(model, server_url):
+    model_weights = [param.data.numpy().tolist() for param in model.parameters()]
+    response = requests.post(server_url + "/update_model", json={'weights': model_weights})
+    if response.status_code != 200:
+        print(f"Error: Received status code {response.status_code}")
+        print(f"Response text: {response.text}")
+        response.raise_for_status()
+    try:
+        aggregated_weights = response.json()['aggregated_weights']
+    except requests.exceptions.JSONDecodeError as e:
+        print("JSONDecodeError:", e)
+        print("Response text:", response.text)
+        raise
+    return [torch.tensor(w) for w in aggregated_weights]
 
-# Function to set the model weights received from the server
-def set_model_weights(model, weights, client):
-    # Decrypt the aggregated weights using PySyft
-    decrypted_weights = [torch.tensor(w).get().float_precision() for w in weights]
-    # Set the decrypted weights to the model
-    for param, new_weight in zip(model.parameters(), decrypted_weights):
-        param.data.copy_(new_weight)
+# Load and set model weights
+def set_model_weights(model, weights):
+    with torch.no_grad():
+        for param, new_weight in zip(model.parameters(), weights):
+            param.copy_(new_weight)
 
-# Main function to coordinate training and communication
+# Main function
 def main(server_url, num_rounds):
-    # Load synthetic data
     data, labels = load_data()
-    # Initialize the model
     model = Net()
-    # Create a PySyft VirtualWorker for the client
-    client = sy.VirtualWorker(hook, id="client")
-    
     for round in range(num_rounds):
-        # Train the model on local data
         model = train_model(model, data, labels, epochs=5)
-        # Send the model updates to the server and receive aggregated weights
-        aggregated_weights = send_model_update(model, server_url, client)
-        # Set the aggregated weights to the model
-        set_model_weights(model, aggregated_weights, client)
+        aggregated_weights = send_model_update(model, server_url)
+        set_model_weights(model, aggregated_weights)
 
-# Entry point of the script
 if __name__ == "__main__":
-    # Define the server URL
-    server_url = "http://<server-ip>:5000"
-    # Define the number of training and aggregation rounds
+    server_url = "http://10.0.0.163:5000"
     num_rounds = 10
-    # Execute the main function
     main(server_url, num_rounds)
