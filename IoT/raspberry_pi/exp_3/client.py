@@ -66,8 +66,8 @@ def train_model(model, data, labels, epochs=1):
 def encrypt_weights(weights, public_key):
     encrypted_weights = []
     for weight in weights:
-        encrypted_weight = [public_key.encrypt(x) for x in weight]
-        encrypted_weights.append([[str(e.ciphertext()), e.exponent] for e in encrypted_weight])
+        encrypted_weight = [public_key.encrypt(float(x)) for x in weight]
+        encrypted_weights.append([(e.ciphertext(), e.exponent) for e in encrypted_weight])
     return encrypted_weights
 
 # Send model weights to the server
