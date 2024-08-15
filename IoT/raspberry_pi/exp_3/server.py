@@ -21,7 +21,7 @@ app = Flask(__name__)
 
 # Initialize the global model
 global_model = SimpleNN()
-num_clients = 3
+num_clients = 2
 num_rounds = 10
 client_model = []
 
