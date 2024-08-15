@@ -80,7 +80,7 @@ if __name__ == "__main__":
     model = SimpleNN()
     
     # Fetch and load the global model from the server
-    server_url = 'http://<server_ip>:5000'  # Replace with actual server IP
+    server_url = 'http://10.0.0.163:5000'  # Replace with actual server IP
     if get_global_model(server_url):
         load_global_model(model)
     
