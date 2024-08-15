@@ -1,7 +1,8 @@
 import torch
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import copy
 import matplotlib.pyplot as plt
+import os
 
 
 # Define a simple neural net
@@ -70,10 +71,26 @@ def receive_model():
         test_data = generate_synthetic_data(size=100)
         loss = evaluate_model(global_model, test_data)
 
+        # Save the aggregated model
+        global_model_path = 'global_model.pth'
+        torch.save(global_model.state_dict(), global_model_path)
+
         client_model = [] # Reset for the next round
         return jsonify({'status': 'aggregated', 'loss': loss})
     
     return jsonify({'status': 'waiting'})
+
+
+# Endpoint for clients to fetch the global model
+@app.route('/get_global_model', methods=['GET'])
+def send_global_model():
+    global_model_path = 'global_model.pth'
+    if os.path.exists(global_model_path):
+        return send_file(global_model_path, as_attachment=True)
+    else:
+        return jsonify({'status': 'no_model_available'}), 404
+    
+    
 
 if __name__=='__main__':
     app.run(host='0.0.0.0', port=5000)
