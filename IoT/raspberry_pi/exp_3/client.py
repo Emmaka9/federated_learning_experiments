@@ -97,5 +97,5 @@ def main():
 
 if __name__ == "__main__":
     num_rounds = 10
-    for i in len(num_rounds):
+    for i in range(num_rounds):
         main()
