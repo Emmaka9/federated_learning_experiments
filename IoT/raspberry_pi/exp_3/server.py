@@ -24,7 +24,7 @@ app = Flask(__name__)
 global_model = SimpleNN()
 num_clients = 1
 num_rounds = 10
-client_model = []
+client_models = []
 
 # Synthetic dataset for server evaluation
 def generate_synthetic_data(size=100):

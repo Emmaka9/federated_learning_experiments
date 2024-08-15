@@ -74,9 +74,8 @@ def send_model_to_server(model, server_url, client_id):
     
     os.remove(model_path)
 
+def main():
 
-
-if __name__ == "__main__":
     client_id = 1  # Adjust client_id for each Raspberry Pi client
     model = SimpleNN()
     
@@ -91,3 +90,12 @@ if __name__ == "__main__":
     
     # Send trained model to server
     send_model_to_server(trained_model, server_url, client_id)
+
+    
+
+
+
+if __name__ == "__main__":
+    num_rounds = 10
+    for i in len(num_rounds):
+        main()
