@@ -58,10 +58,10 @@ def load_global_model(model):
 def send_model_to_server(model, server_url, client_id):
     model_path = f'client_{client_id}_model.pth'
     torch.save(model.state_dict(), model_path)
+    
     with open(model_path, 'rb') as f:
-        response = requests.post(f'{server_url}/send_model', json={'model_path': model_path})
+        response = requests.post(f'{server_url}/send_model', files={'file': f})
         
-        # Check for server response before attempting to parse JSON
         if response.status_code != 200:
             print(f"Error: Received status code {response.status_code}")
             print(f"Response content: {response.text}")
@@ -71,8 +71,9 @@ def send_model_to_server(model, server_url, client_id):
             except requests.exceptions.JSONDecodeError:
                 print("Error: Unable to parse JSON response")
                 print(f"Response content: {response.text}")
-        
-    os.remove(model_path)  # Clean up the local model file
+    
+    os.remove(model_path)
+
 
 
 if __name__ == "__main__":

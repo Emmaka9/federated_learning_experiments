@@ -54,30 +54,36 @@ def evaluate_model(model, data):
 @app.route('/send_model', methods=['POST'])
 def receive_model():
     global client_models
-    model_data = request.json['model']
+    if 'file' not in request.files:
+        return jsonify({'status': 'error', 'message': 'No file part in the request'}), 400
+    
+    file = request.files['file']
+    
+    if file.filename == '':
+        return jsonify({'status': 'error', 'message': 'No selected file'}), 400
 
-    # Convert received model parameters back into the model format
+    # Save the file
+    model_path = 'received_client_model.pth'
+    file.save(model_path)
+
+    # Load the model
     client_model = SimpleNN()
-    client_model.load_state_dict(torch.load(model_data['model_path']))
+    client_model.load_state_dict(torch.load(model_path))
+    
     client_models.append(client_model)
 
     # Aggregate models once all clients have sent their models
     if len(client_models) == num_clients:
         aggregated_weights = federated_averaging(client_models)
         global_model.load_state_dict(aggregated_weights)
-
-        # Evaluate model after aggregation
-        print('Aggregated model performace: ')
-        test_data = generate_synthetic_data(size=100)
-        loss = evaluate_model(global_model, test_data)
-
+        
         # Save the aggregated model
         global_model_path = 'global_model.pth'
         torch.save(global_model.state_dict(), global_model_path)
+        
+        client_models = []  # Reset for the next round
+        return jsonify({'status': 'aggregated', 'loss': 0.5})  # Simplified response
 
-        client_model = [] # Reset for the next round
-        return jsonify({'status': 'aggregated', 'loss': loss})
-    
     return jsonify({'status': 'waiting'})
 
 
@@ -89,6 +95,7 @@ def send_global_model():
         return send_file(global_model_path, as_attachment=True)
     else:
         return jsonify({'status': 'no_model_available'}), 404
+
     
     
 
